@@ -1,0 +1,29 @@
+[
+  {
+    "title": "정상 상품",
+    "input": {
+      "name": "파이썬 책",
+      "price": 20000,
+      "stock": 3,
+      "category": "book"
+    },
+    "expected_errors": [],
+    "explanation": "이름은 2~30자, 가격은 0 초과, 재고는 0 이상이며 분류가 book이므로 모두 통과합니다."
+  },
+  {
+    "title": "가격·재고·분류 오류",
+    "input": {
+      "name": "책",
+      "price": 0,
+      "stock": -1,
+      "category": "toy"
+    },
+    "expected_errors": [
+      "string_too_short",
+      "greater_than",
+      "greater_than_equal",
+      "literal_error"
+    ],
+    "explanation": "이름 한 글자는 너무 짧고, 가격 0은 양수가 아니고, 재고 -1은 음수이며 toy는 허용 분류가 아닙니다. 네 필드의 오류를 함께 확인합니다."
+  }
+]

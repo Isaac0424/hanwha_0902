@@ -1,0 +1,32 @@
+[
+  {
+    "title": "외부 필드명",
+    "input": {
+      "userId": 1,
+      "displayName": "민수"
+    },
+    "expected_errors": [],
+    "explanation": "userId/displayName 별칭으로 입력받아 내부 속성 user_id/display_name에 저장합니다. by_alias 옵션에 따라 출력 키가 달라집니다."
+  },
+  {
+    "title": "내부 필드명",
+    "input": {
+      "user_id": 2,
+      "display_name": "지수"
+    },
+    "expected_errors": [],
+    "explanation": "validate_by_name=True이므로 Python에 선언한 user_id/display_name 이름으로 보내도 통과합니다."
+  },
+  {
+    "title": "오타 필드 차단",
+    "input": {
+      "userId": 1,
+      "displayName": "민수",
+      "age": 20
+    },
+    "expected_errors": [
+      "extra_forbidden"
+    ],
+    "explanation": "Customer에 age 필드는 없습니다. extra=\"forbid\" 설정 때문에 extra_forbidden 오류입니다."
+  }
+]

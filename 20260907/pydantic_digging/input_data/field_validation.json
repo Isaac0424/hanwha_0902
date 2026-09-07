@@ -1,0 +1,30 @@
+[
+  {
+    "title": "공백 제거",
+    "input": {
+      "username": "  minsu  "
+    },
+    "expected_errors": [],
+    "explanation": "before 함수가 양끝 공백을 제거하고 str 검사 뒤 after 함수가 길이와 금지 이름을 검사합니다. 최종 username은 minsu입니다."
+  },
+  {
+    "title": "예약 이름",
+    "input": {
+      "username": " admin "
+    },
+    "expected_errors": [
+      "value_error"
+    ],
+    "explanation": "공백 제거 후 admin이 됩니다. after 검증기가 ValueError를 발생시켜 value_error로 표시됩니다."
+  },
+  {
+    "title": "타입 오류",
+    "input": {
+      "username": 123
+    },
+    "expected_errors": [
+      "string_type"
+    ],
+    "explanation": "before는 숫자를 그대로 넘깁니다. 이어지는 str 타입 검사에서 string_type 오류가 나므로 after 함수로 진행하지 않습니다."
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "title": "DB 객체의 공개 필드만 응답",
+    "input": {
+      "id": 1,
+      "name": "민수",
+      "internal_memo": "운영 메모"
+    },
+    "expected_errors": [],
+    "explanation": "딕셔너리를 속성 객체로 만든 뒤 row.id/row.name을 읽어 검증합니다. 응답에 선언하지 않은 internal_memo는 출력에서 빠집니다."
+  },
+  {
+    "title": "객체 속성 누락",
+    "input": {
+      "id": 1
+    },
+    "expected_errors": [
+      "missing"
+    ],
+    "explanation": "속성 객체에 name이 없고 UserResponse에도 name 기본값이 없어 missing 오류입니다."
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "title": "이름만 수정",
+    "input": {
+      "original": {
+        "name": "민수",
+        "bio": "개발자"
+      },
+      "patch": {
+        "name": "지수"
+      }
+    },
+    "expected_errors": [],
+    "explanation": "name만 보냈으므로 exclude_unset=True 결과에는 name만 남습니다. 이름은 지수로 바뀌고 기존 bio는 개발자로 유지됩니다."
+  },
+  {
+    "title": "소개를 명시적으로 비우기",
+    "input": {
+      "original": {
+        "name": "민수",
+        "bio": "개발자"
+      },
+      "patch": {
+        "bio": null
+      }
+    },
+    "expected_errors": [],
+    "explanation": "bio에 null을 명시적으로 보냈으므로 수정 대상에 포함합니다. 최종 bio는 None이 되어 기존 소개를 비웁니다."
+  },
+  {
+    "title": "아무 필드도 보내지 않음",
+    "input": {
+      "original": {
+        "name": "민수",
+        "bio": "개발자"
+      },
+      "patch": {}
+    },
+    "expected_errors": [],
+    "explanation": "patch에서 아무 필드도 보내지 않아 실제 수정 항목이 빈 딕셔너리입니다. 기존 이름과 소개를 모두 유지합니다."
+  },
+  {
+    "title": "이름 None은 최종 모델에서 거부",
+    "input": {
+      "original": {
+        "name": "민수",
+        "bio": "개발자"
+      },
+      "patch": {
+        "name": null
+      }
+    },
+    "expected_errors": [
+      "string_type"
+    ],
+    "explanation": "수정 요청 모델은 name=None을 받지만 병합한 최종 Profile은 name이 문자열이어야 합니다. 마지막 재검증에서 string_type 오류입니다."
+  }
+]

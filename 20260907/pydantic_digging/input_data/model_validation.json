@@ -1,0 +1,22 @@
+[
+  {
+    "title": "정상 예약",
+    "input": {
+      "start": "2026-09-07",
+      "end": "2026-09-09"
+    },
+    "expected_errors": [],
+    "explanation": "문자열 두 개가 date 객체로 변환됩니다. 종료일이 시작일보다 뒤여서 모델 전체 검사도 통과합니다."
+  },
+  {
+    "title": "역전된 기간",
+    "input": {
+      "start": "2026-09-09",
+      "end": "2026-09-07"
+    },
+    "expected_errors": [
+      "value_error"
+    ],
+    "explanation": "두 값 모두 날짜이지만 종료일이 더 빠릅니다. check_period에서 관계 규칙에 실패해 모델 전체의 value_error가 됩니다."
+  }
+]

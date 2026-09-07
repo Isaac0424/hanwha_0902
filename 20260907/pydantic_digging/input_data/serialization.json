@@ -1,0 +1,26 @@
+[
+  {
+    "title": "계산 필드와 비밀 값 제외",
+    "input": {
+      "created_at": "2026-09-07T12:30:00",
+      "unit_price": 1000,
+      "quantity": 3,
+      "api_key": "fake-study-key"
+    },
+    "expected_errors": [],
+    "explanation": "단가 1000 × 수량 3으로 total=3000을 계산합니다. api_key는 출력에서 제외되고, 날짜 표현과 전체 반환 타입을 세 방식으로 비교합니다."
+  },
+  {
+    "title": "수량 오류",
+    "input": {
+      "created_at": "2026-09-07T12:30:00",
+      "unit_price": 1000,
+      "quantity": 0,
+      "api_key": "fake-study-key"
+    },
+    "expected_errors": [
+      "greater_than"
+    ],
+    "explanation": "수량 0은 gt=0 조건에 실패합니다. 입력 검증을 통과하지 못했으므로 직렬화까지 진행하지 않습니다."
+  }
+]

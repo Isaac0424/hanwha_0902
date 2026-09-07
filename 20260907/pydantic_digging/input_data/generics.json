@@ -1,0 +1,32 @@
+[
+  {
+    "title": "상품 페이지",
+    "input": {
+      "items": [
+        {
+          "id": 1,
+          "name": "책"
+        }
+      ],
+      "total": 1
+    },
+    "expected_errors": [],
+    "explanation": "Page[Product]가 items의 각 항목을 Product로 검사합니다. 스키마 속성 출력은 실제 상품 값이 아니라 필드 이름 items/total입니다."
+  },
+  {
+    "title": "상품 필드 검증",
+    "input": {
+      "items": [
+        {
+          "id": "bad",
+          "name": "책"
+        }
+      ],
+      "total": 1
+    },
+    "expected_errors": [
+      "int_parsing"
+    ],
+    "explanation": "items의 첫 상품 id인 \"bad\"를 정수로 바꿀 수 없습니다. items.0.id에서 int_parsing 오류입니다."
+  }
+]

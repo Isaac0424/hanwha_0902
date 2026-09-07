@@ -1,0 +1,52 @@
+[
+  {
+    "title": "카드 결제",
+    "input": {
+      "amount": 1000,
+      "payment": {
+        "type": "card",
+        "card_token": "fake-token"
+      }
+    },
+    "expected_errors": [],
+    "explanation": "payment.type이 card이므로 CardPayment 모델을 선택합니다. 필수 card_token이 있어 통과합니다."
+  },
+  {
+    "title": "계좌 결제",
+    "input": {
+      "amount": 1000,
+      "payment": {
+        "type": "bank",
+        "bank_code": "001"
+      }
+    },
+    "expected_errors": [],
+    "explanation": "payment.type이 bank이므로 BankPayment 모델을 선택합니다. bank_code가 숫자 세 자리라 통과합니다."
+  },
+  {
+    "title": "알 수 없는 결제 수단",
+    "input": {
+      "amount": 1000,
+      "payment": {
+        "type": "cash"
+      }
+    },
+    "expected_errors": [
+      "union_tag_invalid"
+    ],
+    "explanation": "card와 bank 중 cash에 해당하는 모델이 없어 union_tag_invalid 오류입니다."
+  },
+  {
+    "title": "선택된 모델의 필수 값 누락",
+    "input": {
+      "amount": 1000,
+      "payment": {
+        "type": "card"
+      }
+    },
+    "expected_errors": [
+      "missing"
+    ],
+    "explanation": "CardPayment는 선택했지만 필수 card_token이 없습니다. payment.card.card_token에서 missing 오류입니다."
+  }
+]

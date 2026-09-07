@@ -1,0 +1,81 @@
+[
+  {
+    "title": "문자열 숫자·날짜 변환과 기본값",
+    "input": {
+      "id": "10",
+      "joined_at": "2026-09-07T09:00:00",
+      "nickname": null
+    },
+    "expected_errors": [],
+    "explanation": "id의 \"10\"은 정수 10으로 변환됩니다. name은 기본값 \"익명\", tags는 새 빈 목록이 됩니다. nickname은 null(None)을 보냈으므로 허용됩니다."
+  },
+  {
+    "title": "nickname 키를 보내지 않으면 오류",
+    "input": {
+      "id": 10,
+      "joined_at": "2026-09-07T09:00:00"
+    },
+    "expected_errors": [
+      "missing"
+    ],
+    "explanation": "nickname 키를 보내지 않았습니다. str | None은 None이라는 값을 허용할 뿐 기본값을 정하지 않아, 이 선언에서는 키가 없으면 missing 오류입니다."
+  },
+  {
+    "title": "숫자로 바꿀 수 없는 id",
+    "input": {
+      "id": "hello",
+      "joined_at": "2026-09-07",
+      "nickname": null
+    },
+    "expected_errors": [
+      "int_parsing"
+    ],
+    "explanation": "id에 보낸 \"hello\"를 정수로 바꿀 수 없어 int_parsing 오류입니다."
+  },
+  {
+    "title": "nickname에 문자열 보내기",
+    "input": {
+      "id": 10,
+      "joined_at": "2026-09-07T09:00:00",
+      "nickname": "민수"
+    },
+    "expected_errors": [],
+    "explanation": "nickname에 문자열을 보냈습니다. str | None의 str에 해당하므로 그대로 저장합니다."
+  },
+  {
+    "title": "nickname에 빈 문자열 보내기",
+    "input": {
+      "id": 10,
+      "joined_at": "2026-09-07T09:00:00",
+      "nickname": ""
+    },
+    "expected_errors": [],
+    "explanation": "빈 문자열 \"\"도 str입니다. nickname 키가 없는 상태나 null(None)과 다릅니다. 최소 길이 제한이 없어 성공합니다."
+  },
+  {
+    "title": "name에 null은 기본값으로 바뀌지 않음",
+    "input": {
+      "id": 10,
+      "name": null,
+      "joined_at": "2026-09-07T09:00:00",
+      "nickname": null
+    },
+    "expected_errors": [
+      "string_type"
+    ],
+    "explanation": "name을 생략하면 \"익명\"을 채우지만 여기서는 null이라는 값을 보냈습니다. name의 타입은 str이므로 None은 거부합니다."
+  },
+  {
+    "title": "tags에 null은 빈 목록으로 바뀌지 않음",
+    "input": {
+      "id": 10,
+      "joined_at": "2026-09-07T09:00:00",
+      "nickname": null,
+      "tags": null
+    },
+    "expected_errors": [
+      "list_type"
+    ],
+    "explanation": "default_factory=list는 tags를 생략했을 때 새 []를 만듭니다. 여기서는 null을 직접 보냈기 때문에 기본값을 만들지 않고 list 타입 오류가 납니다."
+  }
+]

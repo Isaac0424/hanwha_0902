@@ -1,0 +1,38 @@
+[
+  {
+    "title": "정수 입력",
+    "input": {
+      "initial": {
+        "quantity": 3
+      },
+      "assign": 4
+    },
+    "expected_errors": [],
+    "explanation": "초기 수량 3과 재할당할 수량 4 모두 실제 정수이며 0 이상입니다. 최종 수량은 4입니다."
+  },
+  {
+    "title": "문자열 숫자를 거부",
+    "input": {
+      "initial": {
+        "quantity": "3"
+      }
+    },
+    "expected_errors": [
+      "int_type"
+    ],
+    "explanation": "strict=True이므로 문자열 \"3\"을 정수로 바꾸지 않습니다. 객체를 처음 만들 때 int_type 오류입니다."
+  },
+  {
+    "title": "생성 후 재할당도 검증",
+    "input": {
+      "initial": {
+        "quantity": 3
+      },
+      "assign": -1
+    },
+    "expected_errors": [
+      "greater_than_equal"
+    ],
+    "explanation": "초기 수량 3은 통과합니다. validate_assignment=True 덕분에 -1을 대입하는 순간 ge=0 조건을 검사하여 거부합니다."
+  }
+]
