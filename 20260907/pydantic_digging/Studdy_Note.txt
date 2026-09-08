@@ -38,3 +38,38 @@ PermissionError	파일·리소스 접근 권한 부족
 IntegrityError	DB 중복 키·외래 키 제약 위반
 Pydantic에서는 ValidationError 안의 type도 오류 코드입니다
 '''
+
+
+'''
+04 aliases .py note 
+
+ConfigDict기능을 통해서 Validate 과정을 구체화 할 수 있다.
+extra = 'forbid' 정의되지 않은 필드가 있다면 이는 오류로 처리된다. 
+
+
+매개변수	설명	주요 값
+extra	정의되지 않은 필드 처리	"ignore", "allow", "forbid"
+strict	엄격한 타입 검증 사용	True, False
+frozen	모델을 불변 객체로 설정	True, False
+validate_assignment	객체 속성 변경 시 재검증	True, False
+validate_default	기본값도 검증	True, False
+validate_return	함수 반환값 검증	True, False
+from_attributes	객체의 속성에서 모델 생성 허용	True, False
+populate_by_name	필드명과 alias 모두 입력 허용	True, False
+validate_by_name	필드명으로 입력 검증 허용	True, False
+validate_by_alias	alias로 입력 검증 허용	True, False
+serialize_by_alias	직렬화 시 alias 사용	True, False
+alias_generator	필드 alias 자동 생성	함수
+use_enum_values	Enum 대신 값 저장	True, False
+arbitrary_types_allowed	임의의 사용자 정의 타입 허용	True, False
+str_strip_whitespace	문자열 앞뒤 공백 제거	True, False
+str_to_lower	문자열을 소문자로 변환	True, False
+str_to_upper	문자열을 대문자로 변환	True, False
+str_min_length	문자열 최소 길이	정수
+str_max_length	문자열 최대 길이	정수
+validate_assignment	할당 시점에 필드 검증	True, False
+json_schema_extra	JSON Schema에 추가 정보 설정	dict 또는 함수
+title	모델의 JSON Schema 제목	문자열
+protected_namespaces	보호할 이름 공간 설정	튜플
+hide_input_in_errors	오류 메시지에서 입력값 숨김	True, False
+'''
