@@ -20,21 +20,3 @@ def run(data):
     product = Product.model_validate(data)  # 실패하면 아래 줄로 진행하지 않습니다.
     result = product.model_dump()  # 성공한 Product 객체 → 딕셔너리
     return result
-
-'''
-annotated 사용시 재사용 가능 
-
-from typing import Annotated
-
-ShortText = Annotated[str, Field(min_length=2, max_length=30)]
-
-class Product(BaseModel):
-    name: ShortText
-
-class User(BaseModel):
-    nickname: ShortText
-    
-'''
-
-# Annotated안에 Field가 정의된다. 
-# 가독성과 재사용성 때문에 pydantic v2 이후로는 annotated 권장 

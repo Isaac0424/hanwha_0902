@@ -1,0 +1,40 @@
+'''
+02 constraints.py
+annotated 사용시 재사용 가능 
+
+from typing import Annotated
+
+ShortText = Annotated[str, Field(min_length=2, max_length=30)]
+
+class Product(BaseModel):
+    name: ShortText
+
+class User(BaseModel):
+    nickname: ShortText
+
+# Annotated안에 Field가 정의된다. 
+# 가독성과 재사용성 때문에 pydantic v2 이후로는 annotated 권장 
+'''
+
+
+
+'''
+03 nested.py 
+
+items 는 리스트여서 min_length로 최소 갯수를 표현한다.
+model_validate()를 통해서 값을 초기화하는 과정에서 발생하는 평가 오류는 run 모델을 실행한 runner.py에서 try() except를 진행한다.
+값을 초기화하는 과정에서 validation error 뿐만 아니라 다른 에러가 발생하는 케이스를 염두에 두기 위함이다. 
+
+자주 발생하는 예외
+-----------------------------------------------
+KeyError	딕셔너리에 없는 키 접근
+TypeError	잘못된 타입으로 연산 또는 함수 호출
+ValueError	값의 형식은 맞지만 허용되지 않음
+FileNotFoundError	파일이 존재하지 않음
+JSONDecodeError	JSON 형식이 잘못됨
+TimeoutError	외부 API·DB 응답 시간 초과
+ConnectionError	네트워크·DB 연결 실패
+PermissionError	파일·리소스 접근 권한 부족
+IntegrityError	DB 중복 키·외래 키 제약 위반
+Pydantic에서는 ValidationError 안의 type도 오류 코드입니다
+'''
