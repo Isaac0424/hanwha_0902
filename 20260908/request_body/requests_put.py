@@ -3,7 +3,7 @@ import requests
 # URL의 1은 item_id, params는 쿼리 파라미터, json은 요청 본문이에요.
 try:
     response = requests.put(
-        "http://127.0.0.1:8000/items/1",
+        "http://127.0.0.1:8000/items/*",
         json={"name": "노트북", "price": 1800000},
         timeout=10,
     )
