@@ -1,10 +1,8 @@
 import streamlit as st 
-import requests
 
-FASTAPI_URL = "http://127.0.0.1:8000"
+home_page = st.Page("pages/home.py", title="이름 입력", default=True)
+chat_page = st.Page("pages/chat.py", title="채팅")
 
-st. title("Streamlit & FastAPI Chat Example")
+navigation = st.navigation([home_page, chat_page], position="hidden")
+navigation.run()
 
-prompt = st.chat_input("Say something")
-if prompt:
-    st.write(f"User has sent the following prompt: {prompt}")

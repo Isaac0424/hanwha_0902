@@ -2,6 +2,8 @@
 # AI Agent / RAG / Web / Database project
 # ------------------------------------------------------------
 
+langchain-kr/
+
 # Secrets and local environment variables
 .env
 .env.*
