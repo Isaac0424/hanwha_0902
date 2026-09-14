@@ -3,7 +3,7 @@
 # ------------------------------------------------------------
 
 langchain-kr/
-
+rag_one-main/
 # Secrets and local environment variables
 .env
 .env.*
