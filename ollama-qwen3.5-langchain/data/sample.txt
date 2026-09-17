@@ -1,0 +1,21 @@
+한화 0902 프로젝트 학습 노트
+
+이 문서는 RAG(Retrieval-Augmented Generation) 예제를 테스트하기 위한 샘플 문서입니다.
+
+주요 하드웨어 사양:
+- CPU: Intel Core i7-10875H (8코어 16스레드, 2.30GHz)
+- 메모리: 64GB
+- 내장 그래픽: Intel UHD Graphics (공유 메모리 사용)
+- 외장 그래픽: NVIDIA GeForce RTX 2070 with Max-Q Design (VRAM 8GB)
+
+로컬 LLM 운용 전략:
+- RTX 2070 Max-Q는 VRAM이 8GB이므로, 양자화된 8B~9B급 모델이 GPU 메모리에 완전히 적재되어
+  빠른 추론 속도를 낼 수 있는 최적 구간이다.
+- Qwen3.5 소형 모델 라인업(0.8b, 2b, 4b, 9b)은 툴 콜링과 추론(thinking) 기능을 기본 지원하며,
+  9b 모델이 이 GPU에서 속도와 품질의 균형이 가장 좋다.
+- 임베딩 모델은 nomic-embed-text를 사용하며, VRAM 점유가 작아 채팅 모델과 함께 상주시켜도 무리가 없다.
+
+Docker 구성 방식:
+- Ollama 공식 이미지를 docker-compose로 실행하고, NVIDIA Container Toolkit을 통해
+  WSL2 기반 Docker Desktop에서 GPU를 컨테이너에 전달한다.
+- 모델 가중치는 named volume(ollama_data)에 저장되어 컨테이너를 재생성해도 다시 받을 필요가 없다.
