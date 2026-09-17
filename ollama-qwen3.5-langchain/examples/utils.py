@@ -186,17 +186,27 @@ def record_savings(
     if SAVINGS_PATH.exists():
         totals = json.loads(SAVINGS_PATH.read_text(encoding="utf-8"))
     else:
-        totals = {
-            "call_count": 0,
-            "input_tokens": 0,
-            "output_tokens": 0,
-            "equivalent_cost_usd": 0.0,
-            "electricity_cost_krw": 0.0,
-        }
+        totals = {}
+
+    # 이전 스키마(예: total_tokens 없던 버전)로 저장된 파일도 그대로 이어서 누적하도록 보정.
+    # total_tokens가 아예 없던 구버전 파일은 0이 아니라 input+output 누적치로 역산해서
+    # 채워야 이번 호출분만 반영되는 식으로 누적이 끊기지 않는다.
+    totals.setdefault("call_count", 0)
+    totals.setdefault("input_tokens", 0)
+    totals.setdefault("output_tokens", 0)
+    if "total_tokens" not in totals:
+        totals["total_tokens"] = totals["input_tokens"] + totals["output_tokens"]
+    totals.setdefault("equivalent_cost_usd", 0.0)
+    totals.setdefault("electricity_cost_krw", 0.0)
+
+    call_input = usage_metadata.get("input_tokens", 0)
+    call_output = usage_metadata.get("output_tokens", 0)
+    call_total = usage_metadata.get("total_tokens", call_input + call_output)
 
     totals["call_count"] += 1
-    totals["input_tokens"] += usage_metadata.get("input_tokens", 0)
-    totals["output_tokens"] += usage_metadata.get("output_tokens", 0)
+    totals["input_tokens"] += call_input
+    totals["output_tokens"] += call_output
+    totals["total_tokens"] += call_total
     totals["equivalent_cost_usd"] += equivalent_usd
     totals["electricity_cost_krw"] += electricity_krw
     totals["compared_model"] = model
@@ -204,12 +214,13 @@ def record_savings(
     SAVINGS_PATH.write_text(json.dumps(totals, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(
-        f"[savings] 이번 호출: {model} 기준 약 ${equivalent_usd:.6f} 상당 / "
-        f"전기요금 약 {electricity_krw:.4f}원"
+        f"[savings] 이번 호출: 토큰 입력 {call_input} / 출력 {call_output} / 합계 {call_total} — "
+        f"{model} 기준 약 ${equivalent_usd:.6f} 상당 / 전기요금 약 {electricity_krw:.4f}원"
     )
     print(
         f"[savings] 누적({totals['call_count']}회): "
-        f"클라우드({model}) 대비 약 ${totals['equivalent_cost_usd']:.4f} 상당 / "
-        f"전기요금 누적 약 {totals['electricity_cost_krw']:.2f}원"
+        f"토큰 입력 {totals['input_tokens']} / 출력 {totals['output_tokens']} / "
+        f"합계 {totals['total_tokens']} — 클라우드({model}) 대비 약 ${totals['equivalent_cost_usd']:.4f} "
+        f"상당 / 전기요금 누적 약 {totals['electricity_cost_krw']:.2f}원"
     )
     return totals
