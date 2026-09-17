@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 
-from utils import LatencyCallbackHandler, print_ollama_durations, timed
+from utils import LatencyCallbackHandler, print_ollama_durations, record_savings, timed
 
 load_dotenv()
 
@@ -40,3 +40,8 @@ if __name__ == "__main__":
     #    (여기 값은 순수 추론 시간만 포함, 클라이언트<->서버 네트워크 왕복은 제외)
     print("\n[Ollama 서버 측 타이밍 - response_metadata]")
     print_ollama_durations(response.response_metadata)
+
+    # 4) 자기만족용: 클라우드 대비 절약액(USD)과 실제 전기요금(KRW)을 누적 기록
+    #    (data/outputs/savings.json에 계속 더해짐)
+    print("\n[누적 절약 기록]")
+    record_savings(response.usage_metadata, response.response_metadata)

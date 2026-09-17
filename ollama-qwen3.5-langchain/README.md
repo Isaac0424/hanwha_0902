@@ -29,14 +29,7 @@ RTX 2070 Max-Q는 VRAM이 8GB라 대형 모델은 무리지만, **`qwen3.5:9b`�
 Windows에서 GPU를 쓰는 Ollama 컨테이너를 띄우는 방법은 두 가지가 있다. 이 프로젝트는
 **B안(WSL 네이티브 Docker Engine)**으로 실제 구동을 검증했다.
 
-### A안: Docker Desktop (GUI, 초보자에게 간편)
-
-1. [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/) 설치
-   ("Use WSL 2 instead of Hyper-V" 옵션 체크)
-2. Docker Desktop 설정 → Resources → WSL Integration 에서 사용 중인 배포판 활성화
-3. 최신 버전이면 WSL2 백엔드에서 GPU를 컨테이너에 자동 전달한다 (별도 툴킷 설치 불필요).
-
-### B안: WSL(Ubuntu) 안에 Docker Engine 직접 설치 (Docker Desktop 없이, 실제 검증됨)
+### WSL(Ubuntu) 안에 Docker Engine 직접 설치 (Docker Desktop 없이, 실제 검증됨)
 
 ```bash
 # WSL(Ubuntu) 셸에서
@@ -118,10 +111,10 @@ copy .env.example .env
 | `examples/02_prompt_template.py` | `ChatPromptTemplate` + LCEL 체인 |
 | `examples/03_streaming_chat.py` | 토큰 스트리밍 출력 |
 | `examples/04_conversation_memory.py` | `RunnableWithMessageHistory`로 대화 맥락 유지 |
-| `examples/05_rag_local_docs.py` | `data/sample.txt`를 임베딩해 검색 후 답변하는 RAG |
+| `examples/05_rag_local_docs.py` | `data/sample.txt`를 임베딩해 검색 후 답변하는 RAG (파라미터 튜닝은 [docs/rag-optimization.md](docs/rag-optimization.md) 참고) |
 | `examples/06_llm_caching.py` | `SQLiteCache`로 동일 질문 재호출 시 응답 속도 비교 |
 | `examples/07_pickle_json_io.py` | 체인 결과를 pickle/JSON으로 저장 후 다시 읽어 검증 |
-| `examples/08_timing_decorator.py` | 추론 시간 측정 3가지 방법(데코레이터/콜백/Ollama 응답 메타데이터) 비교 |
+| `examples/08_timing_decorator.py` | 추론 시간 측정 3가지 방법(데코레이터/콜백/Ollama 응답 메타데이터) 비교 + 클라우드 대비 절약액/전기요금 누적 기록(`data/outputs/savings.json`) |
 
 ```powershell
 python examples/01_basic_chat.py
@@ -155,3 +148,12 @@ python examples/01_basic_chat.py
   `OLLAMA_BASE_URL`을 함께 수정.
 - WSL을 새로 켤 때마다 docker가 꺼져 있으면 → `sudo service docker start` (systemd를 켰다면
   `sudo systemctl enable --now docker`로 자동 시작 가능).
+- `docker`, `docker compose`, `sudo service docker ...` 명령은 반드시 **WSL(Ubuntu) 셸 안에서**
+  실행해야 한다 (Windows Terminal에서 `wsl` 또는 `wsl -d Ubuntu`로 진입). Windows
+  PowerShell/cmd 프롬프트에서 그대로 실행하면:
+  - `docker ps`가 `failed to connect to the docker API at
+    npipe:////./pipe/dockerDesktopLinuxEngine`로 실패한다 — Windows용 `docker` CLI가 기본적으로
+    Docker Desktop의 named pipe를 찾는데, 이 프로젝트는 Docker Desktop을 쓰지 않기 때문이다.
+  - `sudo service docker start`는 Windows 11 내장 `sudo`(기본 비활성화)로 잘못 실행되어
+    "Sudo가 이 컴퓨터에서 사용하지 않도록 설정되어 있습니다" 오류가 난다 — WSL의 Linux `sudo`와는
+    다른 명령이다.
